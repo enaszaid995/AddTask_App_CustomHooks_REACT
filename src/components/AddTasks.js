@@ -17,7 +17,7 @@ const AddTasks=(props)=>{
       sendTask({
         url:'https://addtasks-62bbc-default-rtdb.firebaseio.com/tasks.json',
         method: 'POST',
-        body: JSON.stringify({ text: task }),
+        body: { text:task },
         headers: {
           'Content-Type': 'application/json',
     }
@@ -26,7 +26,8 @@ const AddTasks=(props)=>{
 
     
     return  <div className={styles.container}>
-                <TaskForm enteredTask={enteredTask}/>
+                <TaskForm enteredTask={enteredTask}
+                loading={isLoading}/>
                 {error && <p>{error}</p>}
             </div>
 }

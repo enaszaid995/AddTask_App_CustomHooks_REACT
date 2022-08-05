@@ -6,6 +6,7 @@ const TaskForm=(props)=>{
     const SubmitHandler=event=>{
         event.preventDefault();
         const enteredValue = taskInput.current.value;
+
         if(enteredValue.trim().length > 0){
             props.enteredTask(enteredValue);
         }
@@ -14,7 +15,7 @@ const TaskForm=(props)=>{
                 <input type="text" 
                         placeholder="Add Task . . ."
                         ref={taskInput}/>
-                <button>Add Task</button>
+                <button>{props.loading ? 'Sending...' : 'Add Task'}</button>
            </form>
 }
 export default TaskForm;

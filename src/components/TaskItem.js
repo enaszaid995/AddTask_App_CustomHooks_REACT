@@ -3,8 +3,8 @@ import styles from './TaskItem.module.css';
 
 function TaskItem(props) {
   return (
-    <li className={styles.task} >{props.task.text}</li>
-  )
+    <li className={styles.task}>{props.children}</li>
+  );
 }
 
 export default TaskItem
