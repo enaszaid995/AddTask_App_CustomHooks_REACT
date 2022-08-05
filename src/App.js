@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { Fragment, useState,useEffect } from 'react';
+import AddTasks from './components/AddTasks';
+import Tasks from './components/Tasks';
+import useHttp from './hooks/use-http';
 
 function App() {
+  const [tasks , setTasks]=useState([]);
+
+  const {error , isLoading , sendRequest:fetchTask}= useHttp();
+  useEffect(()=>{
+    const getData= tasks =>{
+      const loadedTasks = [];
+      for (const taskKey in tasks) {
+        loadedTasks.push({ id: taskKey, text: tasks[taskKey].text });
+      }
+      console.log(loadedTasks)
+    setTasks(loadedTasks);
+    };
+    fetchTask({url:'https://addtasks-62bbc-default-rtdb.firebaseio.com/tasks.json'},getData);
+  },[fetchTask]);
+
+
+  const taskAdd = task =>{
+    setTasks(prevTask => prevTask.concat(task));
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <AddTasks onAddTask={taskAdd}/>
+      <Tasks tasks={tasks} 
+      getData={fetchTask}
+      error={error}
+      isLoading={isLoading}/>
+      
+    </Fragment>
   );
 }
 
